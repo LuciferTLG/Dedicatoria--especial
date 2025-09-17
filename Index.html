@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti, Mi Muñeca 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .lyrics-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #ff6b6b;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .verse {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .verse.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-style: italic;
+            color: #d8bfd8;
+        }
+
+        /* Corazones animados */
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float 6s ease-in infinite;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Efectos de confeti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa5a5, #feca57, #48dbfb);
+            animation: confettiFall 5s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Botón de inicio */
+        .start-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <button class="start-btn" onclick="startExperience()">💖 Haz clic para comenzar 💖</button>
+
+    <div class="container" style="display: none;">
+        <h1 class="title">Para Ti, Mi Muñeca 💖</h1>
+        
+        <div class="lyrics-container">
+            <div class="verse"></div>
+        </div>
+
+        <div class="footer">
+            <p>Hecho con 💖 por un ingeniero que piensa en ti</p>
+        </div>
+    </div>
+
+    <script>
+        const versos = [
+            "Ven a mí, muñeca, vamos a hacer el amor",
+            "Ven a mí, muñeca, vamos a tomar alcohol",
+            "Vamos a bañarnos, empaparnos en jabón",
+            "El día está nublado y a tu lado aquí estoy yo",
+            "",
+            "Ven a mí, muñeca, vamos a tomar alcohol",
+            "Préndete un cigarro, dices, me pongo mamón",
+            "Vamos por caguamas y se disfrutan mejor",
+            "El día está nublado y a tu lado aquí estoy yo",
+            "",
+            "<span class='highlight'>Nadie va a pensar en ti mejor que yo</span>",
+            "<span class='highlight'>Nadie va a pensar en ti mejor que yo</span>", 
+            "<span class='highlight'>Nadie va a pensar en ti mejor que yo</span>",
+            "<span class='highlight'>Nadie va a pensar en ti mejor que yo</span>",
+            "",
+            "¿Pa' qué sirve hablar? No te quiero ver",
+            "¿De qué sirve verte si no te puedo tener aquí?",
+            "Y verte así",
+            "",
+            "Tu cara besar, tus ojitos ver",
+            "¿De qué sirve eso si solo quieres coger?",
+            "Y aquí no es así",
+            "",
+            "Oh, uoh, uoh-ooh-ooh, ooh, ooh",
+            "Oh, ooh, ooh-ooh",
+            "Oh, ooh, uoh-ooh-oh, ooh, ooh",
+            "Ooh",
+            "",
+            "¿Y de qué sirve hablar? No te quiero ver",
+            "¿De qué sirve verte si no te puedo tener aquí?",
+            "Y verte así",
+            "",
+            "Y nos besarnos, tus ojitos ver",
+            "¿De qué sirve eso si no te puedo tener aquí?",
+            "Y verte así",
+            "",
+            "Oh, ooh, ooh-ooh, ooh-oh",
+            "Oh, ooh, uoh-ooh-oh, ooh, ooh",
+            "Ooh, ooh"
+        ];
+
+        function startExperience() {
+            document.querySelector('.start-btn').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            createHearts();
+            createConfetti();
+            startLyricsAnimation();
+            playBackgroundMusic();
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.classList.add('heart');
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 6000);
+                }, i * 200);
+            }
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        function startLyricsAnimation() {
+            const lyricsContainer = document.querySelector('.lyrics-container');
+            let delay = 0;
+
+            versos.forEach((verso, index) => {
+                setTimeout(() => {
+                    const verseElement = document.createElement('div');
+                    verseElement.classList.add('verse');
+                    verseElement.innerHTML = verso;
+                    lyricsContainer.appendChild(verseElement);
+
+                    setTimeout(() => {
+                        verseElement.classList.add('visible');
+                    }, 100);
+                }, delay);
+
+                delay += verso ? 2000 : 1000;
+            });
+        }
+
+        function playBackgroundMusic() {
+            // Puedes agregar música aquí si tienes un archivo
+            // const audio = new Audio('tu-cancion.mp3');
+            // audio.loop = true;
+            // audio.volume = 0.3;
+            // audio.play();
+        }
+    </script>
+</body>
+</html>
